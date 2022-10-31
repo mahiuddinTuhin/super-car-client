@@ -1,23 +1,46 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { AuthContext } from "../../../Context/AuthProvider/AuthProvider";
 import image from "./../../../assets/images/login/login.svg";
 const Signup = () => {
-  const { setUser, user, loading, createUser } = useContext(AuthContext);
+  const { setUser, user, loading, createUser, updateNameUrl, verification } =
+    useContext(AuthContext);
 
   const handleSignup = (event) => {
     event.preventDefault();
     const form = event.target;
     const email = form.email.value;
     const name = form.name.value;
+    const url = form.url.value;
     const password = form.password.value;
 
     createUser(email, password)
       .then((result) => {
-        const user = result.user;
-        console.log(user);
-      }) // this is signup js 19no line 
+        handleUpdateProfile(name, url);
+        handleVerification();
+        alert("check mail for verify your address: ", email);
+        <Navigate to="/" />;
+      })
       .catch((err) => console.log(err));
+
+    const handleVerification = () => {
+      verification()
+        .then((result) => {})
+        .catch((err) => console.log(err));
+    };
+    const handleUpdateProfile = (name, url) => {
+      const profile = {
+        displayName: name,
+        photoURL: url,
+      };
+      updateNameUrl(profile)
+        .then(() => {
+          console.log("profile updated username and url", profile);
+        })
+        .catch((err) => console.log(err));
+    };
+
+    // form.reset();
   };
   return (
     <div className="hero w-full my-20">
@@ -50,6 +73,18 @@ const Signup = () => {
                 placeholder="email"
                 className="input input-bordered"
                 name="email"
+              />
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Photo Url</span>
+              </label>
+              <input
+                required
+                type="url"
+                placeholder="https://pixabay.com/image/tree.png"
+                className="input input-bordered"
+                name="url"
               />
             </div>
             <div className="form-control">
