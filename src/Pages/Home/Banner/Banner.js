@@ -20,7 +20,9 @@ const Banner = () => {
         n += 1;
         n < 2 ? (prev = total) : (prev = n - 1);
         n > 5 ? (next = 1) : (next += 1);
-        return <BannerItem image={image} prev={prev} next={next} n={n} />;
+        return (
+          <BannerItem key={n} image={image} prev={prev} next={next} n={n} />
+        );
       })}
     </div>
   );

@@ -1,15 +1,34 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import login from "./../../assets/images/login/login.svg";
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../Context/AuthProvider/AuthProvider";
+import image from "./../../assets/images/login/login.svg";
+
 const Login = () => {
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
   const handleLogin = (event) => {
     event.preventDefault();
+    const form = event.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    // console.log(email, password);
+    signIn(email, password);
+    navigate("/");
+    alert("login successfully");
+  };
+
+  const signIn = (email, password) => {
+    login(email, password)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <div className="hero w-full my-20">
       <div className="hero-content grid gap-20 md:grid-cols-2 flex-col lg:flex-row">
         <div className="text-center lg:text-left">
-          <img src={login} alt="" className="w-3/4" />
+          <img src={image} alt="" className="w-3/4" />
         </div>
         <div className="card w-full max-w-sm shadow-2xl bg-base-100">
           <h1 className="text-5xl font-bold text-center">Login</h1>

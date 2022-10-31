@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../Context/AuthProvider/AuthProvider";
 import image from "./../../../assets/images/login/login.svg";
 const Signup = () => {
-  const { setUser, user, loading, createUser, updateNameUrl, verification } =
-    useContext(AuthContext);
+  const { createUser, updateNameUrl, verification } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleSignup = (event) => {
     event.preventDefault();
@@ -19,7 +19,7 @@ const Signup = () => {
         handleUpdateProfile(name, url);
         handleVerification();
         alert("check mail for verify your address: ", email);
-        <Navigate to="/" />;
+        navigate("/");
       })
       .catch((err) => console.log(err));
 
@@ -106,7 +106,7 @@ const Signup = () => {
           <h1 className="text-center mb-4 text-fuchsia-900">
             Already have an account
             <Link to="/login" className="text-blue-600 ml-3">
-              Signup
+              Login
             </Link>
           </h1>
         </div>

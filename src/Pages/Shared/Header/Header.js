@@ -1,12 +1,30 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../../../Context/AuthProvider/AuthProvider";
 import logo from "./../../../assets/logo.svg";
 const Header = () => {
+  const { user, logout } = useContext(AuthContext);
+  const signOutUser = () => {
+    logout()
+      .then()
+      .catch((err) => console.log(err));
+  };
   const menuItems = (
     <>
       <li>
         <Link to="/">Home</Link>
-        <Link to="/login">Login</Link>
+      </li>
+      {user ? (
+        <li>
+          <Link onClick={signOutUser}>Signout</Link>
+        </li>
+      ) : (
+        <li>
+          <Link to="/login">Login</Link>
+        </li>
+      )}
+      <li>
+        <Link to="/profile">Profile</Link>
       </li>
     </>
   );
