@@ -17,23 +17,28 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const createUser = (email, password) => {
+    setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
   const updateNameUrl = (profile) => {
+    setLoading(true);
     return updateProfile(auth.currentUser, profile);
   };
 
   const verification = () => {
+    setLoading(false);
     return sendEmailVerification(auth.currentUser);
   };
 
   const login = (email, password) => {
+    setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
   const logout = () => {
-    signOut(auth);
+    setLoading(true);
+    return signOut(auth);
   };
 
   useEffect(() => {
