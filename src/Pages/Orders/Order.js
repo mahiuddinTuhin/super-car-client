@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-const Order = ({ element }) => {
+const Order = ({ element, info }) => {
+  const { orders, setOrders } = info;
   const {
+    status,
     _id,
     customerName,
     email,
@@ -13,7 +15,22 @@ const Order = ({ element }) => {
   } = element;
 
   const handleDelete = (id) => {
-    console.log(orderService._id);
+    const confirm = window.confirm("are you sure you want to delete? ");
+    if (confirm) {
+      fetch(`http://localhost:5000/orders/${id}`, {
+        method: "DELETE",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          const remainingOrders = orders.filter((order) => order !== element);
+          setOrders(remainingOrders);
+          console.log(orders);
+        })
+        .catch((err) => console.log(err))
+        .finally(() =>
+          alert(`${customerName}'s ${serviceName} has deleted successfully`)
+        );
+    }
   };
 
   const [orderService, setOrderService] = useState({});
@@ -42,6 +59,9 @@ const Order = ({ element }) => {
             </div>
             <div className="text-right">
               <p className="text-lg font-semibold">{price}€</p>
+              <span className="text-rose-400">
+                {status ? status : "pending"}
+              </span>
             </div>
           </div>
           <div className="flex text-sm divide-x">

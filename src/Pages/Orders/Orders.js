@@ -6,10 +6,12 @@ const Orders = () => {
   const { user } = useContext(AuthContext);
   const [orders, setOrders] = useState({});
 
+  const info = { orders, setOrders };
   useEffect(() => {
     fetch(`http://localhost:5000/orders?email=${user.email}`)
       .then((res) => res.json())
-      .then((data) => {
+        .then((data) => {
+          
         setOrders(data);
       });
   }, [user?.email]);
@@ -19,7 +21,7 @@ const Orders = () => {
         <ul className="flex flex-col divide-y divide-gray-700">
           {Array.isArray(orders) &&
             orders.map((element, index) => (
-              <Order key={index} element={element}></Order>
+              <Order key={index} info={info} element={element}></Order>
             ))}
         </ul>
         <div className="space-y-1 text-right">
