@@ -7,7 +7,8 @@ const Login = () => {
   const { login, setLoading, loading } = useContext(AuthContext);
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
-  console.log(from);
+  // const from = location.state?.from?.pathname || "/";
+  // console.log(from);
   const navigate = useNavigate();
   const handleLogin = (event) => {
     event.preventDefault();
@@ -16,12 +17,11 @@ const Login = () => {
     const password = form.password.value;
     // console.log(email, password);
     signIn(email, password);
-    console.log(loading);
+
     navigate(from, { replace: true });
-    console.log(loading);
+    // navigate(from, { replace: true });
 
     // alert("login successfully");
-    setLoading(false);
   };
 
   const signIn = (email, password) => {
@@ -29,7 +29,14 @@ const Login = () => {
       .then((result) => {
         console.log(result);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setLoading(false);
+      });
+    // .finally(() => {
+    //   setLoading(false);
+
+    // });
   };
   return (
     <div className="hero w-full my-20">
